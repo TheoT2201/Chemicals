@@ -5,6 +5,11 @@ using UnityEngine;
 public class animationStateController : MonoBehaviour
 {
     Animator animator;
+    private float speed;
+    private bool isWalkingBackward;
+
+    private float rotationSpeed = 90f;
+    private float targetRotation = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -15,14 +20,38 @@ public class animationStateController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey("w"))
+        float vertical = Input.GetAxis("Vertical");
+
+        if (vertical > 0)
         {
-            animator.SetBool("isWalking", true);
+            speed = vertical;
+            isWalkingBackward = false;
+        }
+        else if (vertical < 0)
+        {
+            speed = -vertical;
+            isWalkingBackward = true;
+        }
+        else
+        {
+            speed = 0;
         }
 
-        if (!Input.GetKey("w"))
+        animator.SetFloat("speed", speed);
+        animator.SetBool("isWalkingBackward", isWalkingBackward);
+
+        if (Input.GetKeyDown(KeyCode.D))
         {
-            animator.SetBool("isWalking", false);
+            targetRotation += rotationSpeed;
         }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            targetRotation -= rotationSpeed;
+        }
+
+        float currentRotation = transform.eulerAngles.y;
+        float newRotation = Mathf.MoveTowardsAngle(currentRotation, targetRotation, rotationSpeed * Time.deltaTime);
+        transform.eulerAngles = new Vector3(0, newRotation, 0);
     }
 }
