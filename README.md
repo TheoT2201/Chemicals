@@ -1,4 +1,4 @@
-"# Chemicals" 
+# Chemicals
 A Unity-based interactive chemistry lab simulator, where players can combine real-world compounds to trigger authentic chemical reactions like gas release, deposits, or color changes. The game is both educational and engaging, offering a hands-on experience in virtual experimentation.
 
 ## Game Description
